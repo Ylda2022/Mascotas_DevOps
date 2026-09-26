@@ -1,0 +1,24 @@
+name: pipeline-integracion-continua
+
+# Este robot se despertará cada vez que alguien abra una solicitud de fusión (Pull Request) hacia main
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  validar-html:
+    runs-on: ubuntu-latest # Le pedimos a GitHub que nos preste una computadora con Linux en la nube
+    steps:
+      - name: Descargar codigo de la rama
+        uses: actions/checkout@v4
+
+      - name: Verificar si existe el archivo index.html
+        run: |
+          if [ -f index.html ]; then
+            echo "✅ El archivo index.html existe. Calidad aprobada."
+          else
+            echo "❌ ERROR: Falta el archivo index.html obligatorio."
+            exit 1
+          fi
+
+     
